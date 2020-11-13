@@ -1,11 +1,15 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/louisevanderlith/husk"
+	"github.com/louisevanderlith/husk/collections"
 	"github.com/louisevanderlith/husk/hsk"
 	"github.com/louisevanderlith/husk/op"
 	"github.com/louisevanderlith/husk/records"
+	"os"
+	"reflect"
 )
 
 type WearContext interface {
@@ -25,13 +29,70 @@ type WearContext interface {
 }
 
 func CreateContext() WearContext {
-	ctx = context{Clothing: husk.NewTable(Clothing{})}
+	ctx = context{
+		Clothing: husk.NewTable(Clothing{}),
+		Brands:   husk.NewTable(Brand{}),
+		Types:    husk.NewTable(Type{}),
+	}
+
+	seedBrands()
+	seedTypes()
 
 	return ctx
 }
 
+func seedBrands() {
+	f, err := os.Open("db/brands.seed.json")
+
+	if err != nil {
+		panic(err)
+	}
+
+	var items []Brand
+	dec := json.NewDecoder(f)
+	err = dec.Decode(&items)
+
+	if err != nil {
+		panic(err)
+	}
+
+	coll := collections.ReadOnlyList(reflect.ValueOf(items))
+
+	err = ctx.Brands.Seed(coll)
+
+	if err != nil {
+		panic(err)
+	}
+}
+
+func seedTypes() {
+	f, err := os.Open("db/types.seed.json")
+
+	if err != nil {
+		panic(err)
+	}
+
+	var items []Type
+	dec := json.NewDecoder(f)
+	err = dec.Decode(&items)
+
+	if err != nil {
+		panic(err)
+	}
+
+	coll := collections.ReadOnlyList(reflect.ValueOf(items))
+
+	err = ctx.Types.Seed(coll)
+
+	if err != nil {
+		panic(err)
+	}
+}
+
 func Shutdown() {
 	ctx.Clothing.Save()
+	ctx.Brands.Save()
+	ctx.Types.Save()
 }
 
 func Context() WearContext {
