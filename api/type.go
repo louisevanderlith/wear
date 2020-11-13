@@ -52,7 +52,7 @@ func FetchAllTypes(web *http.Client, host, pagesize string) (records.Page, error
 		return nil, fmt.Errorf("%v: %s", resp.StatusCode, string(bdy))
 	}
 
-	result := records.NewResultPage(core.Clothing{})
+	result := records.NewResultPage(core.Type{})
 	dec := json.NewDecoder(resp.Body)
 	err = dec.Decode(&result)
 

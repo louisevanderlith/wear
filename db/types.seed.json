@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Shirt",
+    "Sizes": [
+      {
+        "ShortCode": "S",
+        "Description": "Small",
+        "Dimensions": "48cm"
+      },
+      {
+        "ShortCode": "M",
+        "Description": "Medium",
+        "Dimensions": "53cm"
+      }
+    ]
+  }
+]
