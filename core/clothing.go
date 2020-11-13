@@ -1,12 +1,15 @@
 package core
 
-import "github.com/louisevanderlith/husk/validation"
+import (
+	"github.com/louisevanderlith/husk/hsk"
+	"github.com/louisevanderlith/husk/validation"
+)
 
 type Clothing struct {
-	Code        string
-	Brand       string
+	Code        string `hsk:"size(64)"`
+	Brand       hsk.Key
 	Description string
-	Type        string
+	Type        hsk.Key
 	Size        string
 	Colour      string
 	Material    string

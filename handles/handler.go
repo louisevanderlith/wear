@@ -10,12 +10,21 @@ import (
 func SetupRoutes(issuer, audience string) http.Handler {
 	r := mux.NewRouter()
 	mw := open.BearerMiddleware(audience, issuer)
+
 	r.Handle("/info/{key:[0-9]+\\x60[0-9]+}", mw.Handler(http.HandlerFunc(ViewClothing))).Methods(http.MethodGet)
-
 	r.Handle("/info/{pagesize:[A-Z][0-9]+}", mw.Handler(http.HandlerFunc(SearchClothing))).Methods(http.MethodGet)
-
 	r.Handle("/info", mw.Handler(http.HandlerFunc(CreateClothing))).Methods(http.MethodPost)
 	r.Handle("/info/{key:[0-9]+\\x60[0-9]+}", mw.Handler(http.HandlerFunc(UpdateClothing))).Methods(http.MethodPut)
+
+	r.Handle("/brands/{key:[0-9]+\\x60[0-9]+}", mw.Handler(http.HandlerFunc(ViewBrand))).Methods(http.MethodGet)
+	r.Handle("/brands/{pagesize:[A-Z][0-9]+}", mw.Handler(http.HandlerFunc(SearchBrands))).Methods(http.MethodGet)
+	r.Handle("/brands", mw.Handler(http.HandlerFunc(CreateBrand))).Methods(http.MethodPost)
+	r.Handle("/brands/{key:[0-9]+\\x60[0-9]+}", mw.Handler(http.HandlerFunc(UpdateBrand))).Methods(http.MethodPut)
+
+	r.Handle("/types/{key:[0-9]+\\x60[0-9]+}", mw.Handler(http.HandlerFunc(ViewType))).Methods(http.MethodGet)
+	r.Handle("/types/{pagesize:[A-Z][0-9]+}", mw.Handler(http.HandlerFunc(SearchTypes))).Methods(http.MethodGet)
+	r.Handle("/types", mw.Handler(http.HandlerFunc(CreateType))).Methods(http.MethodPost)
+	r.Handle("/types/{key:[0-9]+\\x60[0-9]+}", mw.Handler(http.HandlerFunc(UpdateType))).Methods(http.MethodPut)
 
 	/*
 

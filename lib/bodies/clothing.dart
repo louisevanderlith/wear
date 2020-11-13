@@ -1,8 +1,10 @@
+import 'package:mango_ui/keys.dart';
+
 class Clothing {
   final String code;
-  final String brand;
+  final Key brand;
   final String description;
-  final String type;
+  final Key type;
   final String size;
   final String colour;
   final String material;

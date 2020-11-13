@@ -1,6 +1,7 @@
 package core
 
 import (
+	"fmt"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/husk/hsk"
 	"github.com/louisevanderlith/husk/op"
@@ -8,10 +9,19 @@ import (
 )
 
 type WearContext interface {
-	GetClothing(key hsk.Key) (Clothing, error)
+	GetClothing(k hsk.Key) (Clothing, error)
 	FindClothing(page, size int) (records.Page, error)
 	CreateClothing(obj Clothing) (hsk.Key, error)
-	UpdateClothing(key hsk.Key, obj Clothing) error
+	UpdateClothing(k hsk.Key, obj Clothing) error
+	GetTypeSizes(k hsk.Key) (map[string]string, error)
+	GetBrand(k hsk.Key) (Brand, error)
+	FindBrands(page, size int) (records.Page, error)
+	CreateBrand(obj Brand) (hsk.Key, error)
+	UpdateBrand(k hsk.Key, obj Brand) error
+	GetType(k hsk.Key) (Type, error)
+	FindTypes(page, size int) (records.Page, error)
+	CreateType(obj Type) (hsk.Key, error)
+	UpdateType(k hsk.Key, obj Type) error
 }
 
 func CreateContext() WearContext {
@@ -28,14 +38,76 @@ func Context() WearContext {
 	return ctx
 }
 
-type context struct {
-	Clothing husk.Table
-}
-
 var ctx context
 
-func (c context) GetClothing(key hsk.Key) (Clothing, error) {
-	rec, err := c.Clothing.FindByKey(key)
+type context struct {
+	Clothing husk.Table
+	Brands   husk.Table
+	Types    husk.Table
+}
+
+func (c context) GetTypeSizes(k hsk.Key) (map[string]string, error) {
+	t, err := c.GetType(k)
+
+	if err != nil {
+		return nil, err
+	}
+
+	result := make(map[string]string)
+
+	for _, s := range t.Sizes {
+		result[s.ShortCode] = fmt.Sprintf("%s - %s", s.ShortCode, s.Description)
+	}
+
+	return result, nil
+}
+
+func (c context) GetBrand(k hsk.Key) (Brand, error) {
+	rec, err := c.Brands.FindByKey(k)
+
+	if err != nil {
+		return Brand{}, err
+	}
+
+	return rec.GetValue().(Brand), nil
+}
+
+func (c context) FindBrands(page, size int) (records.Page, error) {
+	return c.Brands.Find(page, size, op.Everything())
+}
+
+func (c context) CreateBrand(obj Brand) (hsk.Key, error) {
+	return c.Brands.Create(obj)
+}
+
+func (c context) UpdateBrand(k hsk.Key, obj Brand) error {
+	return c.Brands.Update(k, obj)
+}
+
+func (c context) GetType(k hsk.Key) (Type, error) {
+	rec, err := c.Types.FindByKey(k)
+
+	if err != nil {
+		return Type{}, err
+	}
+
+	return rec.GetValue().(Type), nil
+}
+
+func (c context) FindTypes(page, size int) (records.Page, error) {
+	return c.Types.Find(page, size, op.Everything())
+}
+
+func (c context) CreateType(obj Type) (hsk.Key, error) {
+	return c.Types.Create(obj)
+}
+
+func (c context) UpdateType(k hsk.Key, obj Type) error {
+	return c.Types.Update(k, obj)
+}
+
+func (c context) GetClothing(k hsk.Key) (Clothing, error) {
+	rec, err := c.Clothing.FindByKey(k)
 
 	if err != nil {
 		return Clothing{}, err
@@ -52,6 +124,6 @@ func (c context) CreateClothing(obj Clothing) (hsk.Key, error) {
 	return c.Clothing.Create(obj)
 }
 
-func (c context) UpdateClothing(key hsk.Key, obj Clothing) error {
-	return c.Clothing.Update(key, obj)
+func (c context) UpdateClothing(k hsk.Key, obj Clothing) error {
+	return c.Clothing.Update(k, obj)
 }
