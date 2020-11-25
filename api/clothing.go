@@ -11,7 +11,7 @@ import (
 )
 
 func FetchClothing(web *http.Client, host string, k hsk.Key) (core.Clothing, error) {
-	url := fmt.Sprintf("%s/%s", host, k.String())
+	url := fmt.Sprintf("%s/info/%s", host, k.String())
 	resp, err := web.Get(url)
 
 	if err != nil {
@@ -33,7 +33,7 @@ func FetchClothing(web *http.Client, host string, k hsk.Key) (core.Clothing, err
 }
 
 func FetchAllClothing(web *http.Client, host, pagesize string) (records.Page, error) {
-	url := fmt.Sprintf("%s/clothes/%s", host, pagesize)
+	url := fmt.Sprintf("%s/info/%s", host, pagesize)
 	resp, err := web.Get(url)
 
 	if err != nil {
