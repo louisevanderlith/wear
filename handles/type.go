@@ -113,8 +113,8 @@ func UpdateType(w http.ResponseWriter, r *http.Request) {
 	err = core.Context().UpdateType(key, obj)
 
 	if err != nil {
-		log.Println("Update Vehicle Error", err)
-		http.Error(w, "", http.StatusNotFound)
+		log.Println("Update Type Error", err)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
