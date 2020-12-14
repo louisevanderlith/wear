@@ -113,8 +113,8 @@ func UpdateBrand(w http.ResponseWriter, r *http.Request) {
 	err = core.Context().UpdateBrand(key, obj)
 
 	if err != nil {
-		log.Println("Update Vehicle Error", err)
-		http.Error(w, "", http.StatusNotFound)
+		log.Println("Update Brand Error", err)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
