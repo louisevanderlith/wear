@@ -69,3 +69,10 @@ Future<HttpRequest> fetchType(Key k) async {
 
   return invokeService("GET", url, null);
 }
+
+Future<HttpRequest> fetchClothing(String pagesize) async {
+  final route = getEndpoint("wear");
+  final url = "${route}/info/${pagesize}";
+
+  return invokeService("GET", url, null);
+}

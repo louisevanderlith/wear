@@ -1,5 +1,10 @@
 ## Mango-Wear
 
+# 1.0.7
+
+* Version now aligns with Module
+* Added fetchClothing to API
+
 # 1.0.3
 
 * Fetch Type added to Client
