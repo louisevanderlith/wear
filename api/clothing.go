@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/louisevanderlith/husk/hsk"
+	"github.com/louisevanderlith/husk/keys"
 	"github.com/louisevanderlith/husk/records"
 	"github.com/louisevanderlith/wear/core"
 	"io/ioutil"
@@ -25,7 +26,7 @@ func FetchClothing(web *http.Client, host string, k hsk.Key) (core.Clothing, err
 		return core.Clothing{}, fmt.Errorf("%v: %s", resp.StatusCode, string(bdy))
 	}
 
-	result := core.Clothing{}
+	result := core.Clothing{Brand: keys.CrazyKey(), Type: keys.CrazyKey()}
 	dec := json.NewDecoder(resp.Body)
 	err = dec.Decode(&result)
 
@@ -52,7 +53,7 @@ func FetchAllClothing(web *http.Client, host, pagesize string) (records.Page, er
 		return nil, fmt.Errorf("%v: %s", resp.StatusCode, string(bdy))
 	}
 
-	result := records.NewResultPage(core.Clothing{})
+	result := records.NewResultPage(core.Clothing{Brand: keys.CrazyKey(), Type: keys.CrazyKey()})
 	dec := json.NewDecoder(resp.Body)
 	err = dec.Decode(&result)
 
