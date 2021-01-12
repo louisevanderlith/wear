@@ -69,7 +69,7 @@ func SearchClothing(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateClothing(w http.ResponseWriter, r *http.Request) {
-	var obj core.Clothing
+	obj := core.Clothing{Brand: keys.CrazyKey(), Type: keys.CrazyKey()}
 	err := drx.JSONBody(r, &obj)
 
 	if err != nil {
@@ -82,7 +82,7 @@ func CreateClothing(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Println("Create Error", err)
-		http.Error(w, "", http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -102,7 +102,7 @@ func UpdateClothing(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	obj := core.Clothing{}
+	obj := core.Clothing{Brand: keys.CrazyKey(), Type: keys.CrazyKey()}
 	err = drx.JSONBody(r, &obj)
 
 	if err != nil {
@@ -115,11 +115,11 @@ func UpdateClothing(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Println("Update Service Error", err)
-		http.Error(w, "", http.StatusNotFound)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
-	err = mix.Write(w, mix.JSON(nil))
+	err = mix.Write(w, mix.JSON("Saved"))
 
 	if err != nil {
 		log.Println("Serve Error", err)

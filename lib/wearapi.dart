@@ -9,15 +9,15 @@ import 'package:mango_wear/bodies/type.dart';
 import 'bodies/clothing.dart';
 
 Future<HttpRequest> createClothing(Clothing obj) async {
-  var apiroute = getEndpoint("wear");
-  var url = "${apiroute}/info";
+  final apiroute = getEndpoint("wear");
+  final url = "${apiroute}/info";
 
   return invokeService("POST", url, jsonEncode(obj.toJson()));
 }
 
 Future<HttpRequest> updateClothing(Key key, Clothing obj) async {
-  var route = getEndpoint("wear");
-  var url = "${route}/info/${key.toJson()}";
+  final route = getEndpoint("wear");
+  final url = "${route}/info/${key.toJson()}";
 
   final data = jsonEncode(obj.toJson());
 
@@ -25,22 +25,22 @@ Future<HttpRequest> updateClothing(Key key, Clothing obj) async {
 }
 
 Future<HttpRequest> deleteClothing(Key key) async {
-  var route = getEndpoint("wear");
-  var url = "${route}/info/${key.toJson()}";
+  final route = getEndpoint("wear");
+  final url = "${route}/info/${key.toJson()}";
 
   return invokeService("DELETE", url, "");
 }
 
 Future<HttpRequest> createBrand(Brand obj) async {
-  var apiroute = getEndpoint("wear");
-  var url = "${apiroute}/brands";
+  final apiroute = getEndpoint("wear");
+  final url = "${apiroute}/brands";
 
   return invokeService("POST", url, jsonEncode(obj.toJson()));
 }
 
 Future<HttpRequest> updateBrand(Key key, Brand obj) async {
-  var route = getEndpoint("wear");
-  var url = "${route}/brands/${key.toJson()}";
+  final route = getEndpoint("wear");
+  final url = "${route}/brands/${key.toJson()}";
 
   final data = jsonEncode(obj.toJson());
 
@@ -48,17 +48,24 @@ Future<HttpRequest> updateBrand(Key key, Brand obj) async {
 }
 
 Future<HttpRequest> createType(Type obj) async {
-  var apiroute = getEndpoint("wear");
-  var url = "${apiroute}/types";
+  final apiroute = getEndpoint("wear");
+  final url = "${apiroute}/types";
 
   return invokeService("POST", url, jsonEncode(obj.toJson()));
 }
 
 Future<HttpRequest> updateType(Key key, Type obj) async {
-  var route = getEndpoint("wear");
-  var url = "${route}/types/${key.toJson()}";
+  final route = getEndpoint("wear");
+  final url = "${route}/types/${key.toJson()}";
 
   final data = jsonEncode(obj.toJson());
 
   return invokeService("PUT", url, data);
+}
+
+Future<HttpRequest> fetchType(Key k) async {
+  final route = getEndpoint("wear");
+  final url = "${route}/types/${k.toJson()}";
+
+  return invokeService("GET", url, null);
 }

@@ -81,7 +81,7 @@ func CreateType(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Println("Create Type Error", err)
-		http.Error(w, "", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 

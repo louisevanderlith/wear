@@ -81,7 +81,7 @@ func CreateBrand(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Println("Create Brand Error", err)
-		http.Error(w, "", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
